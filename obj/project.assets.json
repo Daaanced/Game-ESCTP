@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Other\\WpfWorks\\WpfApp2\\WpfApp2.csproj",
+      "projectUniqueName": "D:\\Other\\WpfWorks\\Game-ESCTP\\WpfApp2.csproj",
       "projectName": "WpfApp2",
-      "projectPath": "D:\\Other\\WpfWorks\\WpfApp2\\WpfApp2.csproj",
+      "projectPath": "D:\\Other\\WpfWorks\\Game-ESCTP\\WpfApp2.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "D:\\Other\\WpfWorks\\WpfApp2\\obj\\",
+      "outputPath": "D:\\Other\\WpfWorks\\Game-ESCTP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

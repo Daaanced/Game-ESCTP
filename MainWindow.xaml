@@ -14,10 +14,23 @@
             <ColumnDefinition Width ="*" />
             <ColumnDefinition Width ="*" />
         </Grid.ColumnDefinitions>
+        <ItemsControl ItemsSource="{Binding Array}" Grid.Column="1">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="{Binding Color}" BorderBrush="Black" BorderThickness="1" Width="100" Height="100" Margin="0 5">
+                        <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <Canvas x:Name ="canvas1" Height = "80" Width = "80" Background="Blue" VerticalAlignment="Bottom" Margin="50,0,0,50" 
                 KeyDown="Canvas_PreviewKeyDown" Focusable="True" Grid.Column="0"/>
-        <Canvas x:Name = "canvas" Height = "50" Width = "50" Grid.Column="1" />
-        
+
     </Grid>
-    
+
 </Window>

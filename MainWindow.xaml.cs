@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,20 +19,33 @@ namespace WpfApp2
 {
     public partial class MainWindow : Window
     {
+        public ObservableCollection<ArrayItem> Array { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            Loaded += MainWindow_Loaded;
+
+            DataContext = this;
+
+            Array = new ObservableCollection<ArrayItem>();
+            Random random = new Random();
+
+            for (int i = 0; i < 5; i++)
+            {
+                int value = random.Next(1, 4);
+                Color color = GetColor(value);
+                Array.Add(new ArrayItem { Value = value, Color = new SolidColorBrush(color) });
+            }
+
             canvas1.Focus();
         }
         private void Canvas_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             Thickness currentMargin = canvas1.Margin;
-            
+
             if (e.Key == Key.A)
             {
                 Grid.SetColumn(canvas1, 0);
-                currentMargin = new Thickness (50,0,0,50);
+                currentMargin = new Thickness(50, 0, 0, 50);
 
             }
             if (e.Key == Key.D)
@@ -40,60 +55,54 @@ namespace WpfApp2
             }
             canvas1.Margin = currentMargin;
         }
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private Color GetColor(int value)
         {
-            CreateSquares();
+            // Здесь вы можете определить логику присвоения цвета в зависимости от значения элемента массива
+            // В данном примере используется простая логика, где цвет зависит от значения элемента
+
+            switch (value)
+            {
+                case 1:
+                    return Colors.Red;
+                case 2:
+                    return Colors.Blue;
+                case 3:
+                    return Colors.Green;
+                default:
+                    return Colors.Gray;
+            }
         }
-        private void CreateSquares()
+    }
+
+    public class ArrayItem : INotifyPropertyChanged
+    {
+        private int _value;
+        public int Value
         {
-            int[] values = { 1, 2, 3 };
-            Random random = new Random();
-
-            // Перемешиваем значения в массиве
-            for (int i = 0; i < values.Length; i++)
+            get { return _value; }
+            set
             {
-                int randomIndex = random.Next(i, values.Length);
-                int temp = values[i];
-                values[i] = values[randomIndex];
-                values[randomIndex] = temp;
+                _value = value;
+                OnPropertyChanged("Value");
             }
+        }
 
-            // Создаем и выводим квадраты на экран
-            for (int i = 0; i < values.Length; i++)
+        private SolidColorBrush _color;
+        public SolidColorBrush Color
+        {
+            get { return _color; }
+            set
             {
-                int value = values[i];
-                Color color;
-
-                // Определяем цвет в зависимости от значения
-                switch (value)
-                {
-                    case 1:
-                        color = Colors.Red;
-                        break;
-                    case 2:
-                        color = Colors.Green;
-                        break;
-                    case 3:
-                        color = Colors.Blue;
-                        break;
-                    default:
-                        color = Colors.Black;
-                        break;
-                }
-
-                // Создаем квадрат и устанавливаем его свойства
-                Rectangle square = new Rectangle();
-                square.Width = 50;
-                square.Height = 50;
-                square.Fill = new SolidColorBrush(color);
-
-                // Располагаем квадраты снизу-вверх во втором столбце
-                Grid.SetColumn(square, 1);
-                Grid.SetRow(square, values.Length - i - 1);
-
-                // Добавляем квадрат на Grid
-                grid.Children.Add(square);
+                _color = value;
+                OnPropertyChanged("Color");
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
