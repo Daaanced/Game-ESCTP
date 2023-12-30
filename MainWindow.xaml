@@ -14,7 +14,7 @@
             <ColumnDefinition Width ="*" />
             <ColumnDefinition Width ="*" />
         </Grid.ColumnDefinitions>
-        <ItemsControl ItemsSource="{Binding Array}" Grid.Column="1">
+        <ItemsControl ItemsSource="{Binding Array}" Grid.Column="1" x:Name="Tree">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel/>
@@ -22,8 +22,8 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Background="{Binding Color}" BorderBrush="Black" BorderThickness="1" Width="100" Height="100" Margin="0 5">
-                        <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <Border Background="{Binding Color}" x:Name="Tree" BorderBrush="Black" BorderThickness="1" Width="100" Height="100" Margin="0 5" KeyDown="Canvas_PreviewKeyDown">
+                        <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" VerticalAlignment="Center"  />
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

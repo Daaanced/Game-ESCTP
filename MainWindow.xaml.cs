@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -38,20 +39,37 @@ namespace WpfApp2
 
             canvas1.Focus();
         }
+        
+        private void NextElement()
+        {
+            Array.RemoveAt(Array.Count - 1);
+            Random random = new Random();
+            int value = random.Next(1, 4);
+            Color color = GetColor(value);
+            Array.Insert(0, new ArrayItem { Value = value, Color = new SolidColorBrush(color) });
+        }
+
         private void Canvas_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             Thickness currentMargin = canvas1.Margin;
-
+            TranslateTransform trans = new TranslateTransform();
+            Tree.RenderTransform = trans;
+            //DoubleAnimation animY = new DoubleAnimation(0,100,TimeSpan.FromSeconds(0.5));
             if (e.Key == Key.A)
             {
                 Grid.SetColumn(canvas1, 0);
                 currentMargin = new Thickness(50, 0, 0, 50);
-
+                DoubleAnimation animY = new DoubleAnimation(0, 100, TimeSpan.FromSeconds(0.5));
+                trans.BeginAnimation(TranslateTransform.XProperty, animY);
+                NextElement();
             }
             if (e.Key == Key.D)
             {
                 Grid.SetColumn(canvas1, 2);
-                currentMargin = new Thickness(00, 0, 50, 50);
+                currentMargin = new Thickness(0, 0, 50, 50);
+                DoubleAnimation animY = new DoubleAnimation(0, -100, TimeSpan.FromSeconds(0.5));
+                trans.BeginAnimation(TranslateTransform.XProperty, animY);
+                NextElement();
             }
             canvas1.Margin = currentMargin;
         }
