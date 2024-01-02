@@ -22,20 +22,20 @@ namespace WpfApp2
 {
     public partial class MainWindow : Window
     {
-        private Tumberman tumberman;
-        private Tree tree;
+        private Tumberman _tumberman;
+        private Tree _tree;
         public MainWindow()
         {
             InitializeComponent();
-            game_field.Focus();
-            tumberman = new Tumberman(game_field);
-            tree = new Tree(game_field);
+            GameField.Focus();
+            _tumberman = new Tumberman(GameField);
+            _tree = new Tree(GameField);
 
         }
         
         public void Dbg(object sender, RoutedEventArgs e)
         {
-            tree.Chop(game_field);
+            // здесь можно проводить отладку
         }
 
         public void NextTurn(object sender, KeyEventArgs e)
@@ -44,14 +44,14 @@ namespace WpfApp2
             switch (e.Key)
             {
                 case Key.A:
-                    tumberman.MoveLeft();
+                    _tumberman.MoveLeft();
                     break;
                 case Key.D:
-                    tumberman.MoveRight();
+                    _tumberman.MoveRight();
                     break;
             }
             // рубим дерево
-            tree.Chop(game_field);
+            _tree.Chop(GameField);
             
 
         }
@@ -61,26 +61,26 @@ namespace WpfApp2
     {
         private int _size = 50;
         private Rectangle _body;
-        private int _bottom_position = 20;
-        private int _left_position = 150;
-        private int _right_position = 270;
+        private int _bottomPosition = 20;
+        private int _leftPosition = 150;
+        private int _rightPosition = 270;
 
         public Tumberman(Canvas field)
         {
             // Создаем дровосека
-            this._body = new Rectangle { Name = "tumberman", Width = _size, Height = _size, Fill= Brushes.LightBlue};
+            this._body = new Rectangle { Name = "_tumberman", Width = _size, Height = _size, Fill= Brushes.LightBlue};
             field.Children.Add(this._body);
-            Canvas.SetBottom(_body, _bottom_position);
+            Canvas.SetBottom(_body, _bottomPosition);
             this.MoveLeft();
         }
 
         public void MoveLeft()
         {
-            Canvas.SetLeft(_body, _left_position);
+            Canvas.SetLeft(_body, _leftPosition);
         }
         public void MoveRight()
         {
-            Canvas.SetLeft(_body, _right_position);
+            Canvas.SetLeft(_body, _rightPosition);
         }
 
     }
@@ -88,20 +88,20 @@ namespace WpfApp2
     public class Tree
     {
         private int _height = 5;
-        private int _left_position = 210;
-        private int _bottom_position = 20;
-        private int _interval_margin = 1;
-        private int _item_size = 50;
-        private List<int> _items_bottom_positions;
+        private int _leftPosition = 210;
+        private int _bottomPosition = 20;
+        private int _intervalMargin = 1;
+        private int _itemSize = 50;
+        private List<int> _itemsBottomPositions;
         private List<TreeItem> _items = new List<TreeItem>();
 
         public Tree(Canvas field)
         {
-            _items_bottom_positions = new List<int>();
+            _itemsBottomPositions = new List<int>();
             for (int i = 0; i < _height; i++)
             {
-                _items.Add(new TreeItem(field, _item_size, _left_position));
-                _items_bottom_positions.Add(_bottom_position + i * (_item_size + _interval_margin));
+                _items.Add(new TreeItem(field, _itemSize, _leftPosition));
+                _itemsBottomPositions.Add(_bottomPosition + i * (_itemSize + _intervalMargin));
             }
             Draw();
         }
@@ -109,7 +109,7 @@ namespace WpfApp2
         public void Chop(Canvas field)
         {
             _items.RemoveAt(0);
-            _items.Add(new TreeItem(field, _item_size, _left_position));
+            _items.Add(new TreeItem(field, _itemSize, _leftPosition));
             Draw();
         }
 
@@ -117,7 +117,7 @@ namespace WpfApp2
         {
             for (int i = 0; i < _height; i++)
             {
-                _items[i].MoveDown(_items_bottom_positions[i]);
+                _items[i].MoveDown(_itemsBottomPositions[i]);
             }
         }
 
