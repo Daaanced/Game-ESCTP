@@ -6,31 +6,8 @@
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="600">
-    <Grid x:Name="grid">
-        <Grid.RowDefinitions>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width ="*" />
-            <ColumnDefinition Width ="*" />
-            <ColumnDefinition Width ="*" />
-        </Grid.ColumnDefinitions>
-        <ItemsControl ItemsSource="{Binding Array}" Grid.Column="1" x:Name="Tree">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Border Background="{Binding Color}" x:Name="Tree" BorderBrush="Black" BorderThickness="1" Width="100" Height="100" Margin="0 5" KeyDown="Canvas_PreviewKeyDown">
-                        <TextBlock Text="{Binding Value}" HorizontalAlignment="Center" VerticalAlignment="Center"  />
-                    </Border>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Canvas x:Name ="canvas1" Height = "80" Width = "80" Background="Blue" VerticalAlignment="Bottom" Margin="50,0,0,50" 
-                KeyDown="Canvas_PreviewKeyDown" Focusable="True" Grid.Column="0"/>
-
-    </Grid>
+    <Canvas x:Name="GameField" KeyDown="NextTurn" Focusable="True">
+        <Button x:Name="btn" Click="Dbg">button</Button>
+    </Canvas>
 
 </Window>
