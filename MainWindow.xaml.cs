@@ -32,9 +32,8 @@ namespace WpfApp2
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
-            _timberman = new Timberman(GameField, "./imgs/timberman2.png");
-            _tree = new Tree(GameField, "./imgs/log.png");
-
+            _timberman = new Timberman(GameField, "./imgs/timberman.png");
+            _tree = new Tree(GameField);
         }
 
         public void NextTurn(object sender, KeyEventArgs e)
@@ -82,87 +81,15 @@ namespace WpfApp2
 
         public void MoveLeft()
         {
-            _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
+            _body.RenderTransform = new ScaleTransform { ScaleX = 1 };
             Canvas.SetLeft(_body, _leftPosition);
         }
         public void MoveRight()
         {
-            _body.RenderTransform = new ScaleTransform { ScaleX = 1 };
+            _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
             Canvas.SetLeft(_body, _rightPosition);
         }
 
     }
-
-    public class Tree
-    {
-        private int _height = 10;
-        private int _leftPosition = 210;
-        private int _bottomPosition = 20;
-        private int _itemSize = 50;
-        private List<int> _itemsBottomPositions;
-        private List<TreeItem> _items = new List<TreeItem>();
-        private string _imagePath;
-
-        public Tree(Canvas field, string imagePath)
-        {
-            _imagePath = imagePath;
-            _itemsBottomPositions = new List<int>();
-            for (int i = 0; i < _height; i++)
-            {
-                _items.Add(new TreeItem(field, _itemSize, _leftPosition, _imagePath));
-                _itemsBottomPositions.Add(_bottomPosition + i * _itemSize);
-            }
-            Draw();
-        }
-
-        public void Chop(Canvas field)
-        {
-            _items.RemoveAt(0);
-            _items.Add(new TreeItem(field, _itemSize, _leftPosition, _imagePath));
-            Draw();
-        }
-
-        public void Draw()
-        {
-            for (int i = 0; i < _height; i++)
-            {
-                _items[i].MoveDown(_itemsBottomPositions[i]);
-            }
-        }
-
-    }
-
-    public class TreeItem 
-    {
-        private int _size;
-        private TextBlock _body;
-        static int count = 0;
-
-        public TreeItem(Canvas field, int size, int left_position, string imagePath) 
-        {
-            _size = size;
-            _body = new TextBlock {Width = _size, Height = _size};
-            _body.Text = count.ToString();
-            _body.Background = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Relative))
-            };
-            field.Children.Add(_body);
-            Canvas.SetLeft(_body, left_position);
-            count++;
-        }
-
-        public void MoveDown(int bottom_position)
-        {
-            Canvas.SetBottom(_body, bottom_position);
-        }
-
-        public void Delete(Canvas field) 
-        {
-            field.Children.Remove(_body);
-        }
-
-    }
-    
 
 }
