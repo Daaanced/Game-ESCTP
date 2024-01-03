@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows;
 
 namespace WpfApp2
 {
@@ -16,14 +17,14 @@ namespace WpfApp2
         private int _bottomPosition = 20;
         private int _itemSize = 50;
         private List<int> _itemsBottomPositions;
-        private List<TreeItem> _items = new List<TreeItem>();
+        public List<TreeItem> Items = new List<TreeItem>();
 
         public Tree(Canvas field)
         {
             _itemsBottomPositions = new List<int>();
             for (int i = 0; i < _height; i++)
             {
-                _items.Add(new TreeItem(field));
+                Items.Add(new TreeItem(field));
                 _itemsBottomPositions.Add(_bottomPosition + i * _itemSize);
             }
             Draw();
@@ -31,9 +32,9 @@ namespace WpfApp2
 
         public void Chop(Canvas field)
         {
-            _items[0].Delete(field);
-            _items.RemoveAt(0);
-            _items.Add(new TreeItem(field));
+            Items[0].Delete(field);
+            Items.RemoveAt(0);
+            Items.Add(new TreeItem(field));
             Draw();
         }
 
@@ -41,12 +42,13 @@ namespace WpfApp2
         {
             for (int i = 0; i < _height; i++)
             {
-                _items[i].MoveDown(_itemsBottomPositions[i]);
+                Items[i].MoveDown(_itemsBottomPositions[i]);
             }
         }
     }
     public class TreeItem
     {
+        public int Type;
         int left_position = 210;
         private int _size = 100;
         private int _height = 50;
@@ -58,9 +60,9 @@ namespace WpfApp2
         public TreeItem(Canvas field)
         {
             Random random = new Random();
-            int value = random.Next(1, 4);
+            Type = random.Next(1, 4);
             string imagePath;
-            switch (value)
+            switch (Type)
             {
                 case 2:
                     imagePath = _imagePathL;
