@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="600">
+
     <Canvas x:Name="GameField" KeyDown="NextTurn" Focusable="True">
     </Canvas>
-
 </Window>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Windows;
 
 namespace WpfApp2
 {
@@ -16,7 +17,7 @@ namespace WpfApp2
         private int _bottomPosition = 20;
         private int _itemSize = 50;
         private List<int> _itemsBottomPositions;
-        private List<TreeItem> _items = new List<TreeItem>();
+        public List<TreeItem> _items = new List<TreeItem>();
 
         public Tree(Canvas field)
         {
@@ -52,15 +53,16 @@ namespace WpfApp2
         private int _height = 50;
         private TextBlock _body;
         static int count = 0;
+        public int _type;
         private string _imagePath = "./imgs/log.png";
         private string _imagePathR = "./imgs/logWithBranchR.png";
         private string _imagePathL = "./imgs/logWithBranchL.png";
         public TreeItem(Canvas field)
         {
             Random random = new Random();
-            int value = random.Next(1, 4);
+            _type = random.Next(1, 4);
             string imagePath;
-            switch (value)
+            switch (_type)
             {
                 case 2:
                     imagePath = _imagePathL;

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,8 +23,8 @@ namespace WpfApp2
 {
     public partial class MainWindow : Window
     {
-        private Timberman _timberman;
-        private Tree _tree;
+        public Timberman _timberman;
+        public Tree _tree;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace WpfApp2
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
-            _timberman = new Timberman(GameField, "./imgs/timberman.png");
+            _timberman = new Timberman(GameField);
             _tree = new Tree(GameField);
         }
 
@@ -50,46 +51,19 @@ namespace WpfApp2
             }
             // рубим дерево
             _tree.Chop(GameField);
-            
-
+            Check();
         }
-    }
-
-    public class Timberman
-    {
-        private int _size = 50;
-        private Rectangle _body;
-        private int _bottomPosition = 20;
-        private int _leftPosition = 150;
-        private int _rightPosition = 270;
-
-        public Timberman(Canvas field, string imagePath)
+        public void Check()
         {
-            // Создаем дровосека
-            this._body = new Rectangle { Name = "_timberman", Width = _size, Height = _size};
-            _body.Fill = new ImageBrush
+            if (_tree._items[0]._type == 2 && _timberman._position == 150)
             {
-                ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Relative))
-            };
-            // задаем точку вокруг которой будут происходить трансформации (конкретно отражение картинки по горизонтали)
-            _body.RenderTransformOrigin = new Point(0.5, 0.5);
-            field.Children.Add(this._body);
-            Canvas.SetBottom(_body, _bottomPosition);
-            // дровосек в начале игры стоит слева
-            this.MoveLeft();
-        }
-
-        public void MoveLeft()
-        {
-            _body.RenderTransform = new ScaleTransform { ScaleX = 1 };
-            Canvas.SetLeft(_body, _leftPosition);
-        }
-        public void MoveRight()
-        {
-            _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
-            Canvas.SetLeft(_body, _rightPosition);
+                MessageBox.Show("Вы проиграли слева");
+            }
+            if (_tree._items[0]._type == 3 && _timberman._position == 270)
+            {
+                MessageBox.Show("Вы проиграли справа");
+            }
         }
 
     }
-
 }
