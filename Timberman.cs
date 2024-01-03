@@ -13,10 +13,12 @@ namespace WpfApp2
 {
     public class Timberman
     {
+        public bool IsLeft = true;
         private int _size = 50;
         private Rectangle _body;
         private int _bottomPosition = 20;
-        public int _position = 150;
+        private int _leftPosition = 150;
+        private int _rightPosition = 270;
         private string _imagePath = "./imgs/timberman.png";
         public Timberman(Canvas field)
         {
@@ -38,12 +40,14 @@ namespace WpfApp2
         public void MoveLeft()
         {
             _body.RenderTransform = new ScaleTransform { ScaleX = 1 };
-            Canvas.SetLeft(_body, _position = 150);
+            Canvas.SetLeft(_body, _leftPosition);
+            IsLeft = true;
         }
         public void MoveRight()
         {
             _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
-            Canvas.SetLeft(_body, _position = 270);
+            Canvas.SetLeft(_body, _rightPosition);
+            IsLeft = false;
         }
     }
 }

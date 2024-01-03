@@ -55,13 +55,15 @@ namespace WpfApp2
         }
         public void Check()
         {
-            if (_tree._items[0]._type == 2 && _timberman._position == 150)
+            if (_tree.Items[0].Type == 2 && _timberman.IsLeft)
             {
-                MessageBox.Show("Вы проиграли слева");
+                EndGame window = new EndGame();
+                window.Show();
             }
-            if (_tree._items[0]._type == 3 && _timberman._position == 270)
+            if (_tree.Items[0].Type == 3 && !_timberman.IsLeft)
             {
-                MessageBox.Show("Вы проиграли справа");
+                EndGame window = new EndGame();
+                window.Show();
             }
         }
 
