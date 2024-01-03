@@ -8,6 +8,7 @@
         Title="MainWindow" Height="450" Width="600" WindowStartupLocation="CenterScreen">
         
     <Canvas x:Name="GameField" KeyDown="NextTurn" Focusable="True">
+        <ProgressBar x:Name="Timer" Minimum="0" Maximum="100" Height="10" Width="100" Canvas.Top="20" Canvas.Left="250" Panel.ZIndex="5" Foreground="Red"></ProgressBar>
     </Canvas>
 </Window>
     

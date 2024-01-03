@@ -55,12 +55,7 @@ namespace WpfApp2
         }
         public void Check()
         {
-            if (_tree.Items[0].Type == 2 && _timberman.IsLeft)
-            {
-                EndGame window = new EndGame();
-                window.Show();
-            }
-            if (_tree.Items[0].Type == 3 && !_timberman.IsLeft)
+            if (_tree.Items[0].Type == 2 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
             {
                 EndGame window = new EndGame();
                 window.Show();
