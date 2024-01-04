@@ -54,7 +54,7 @@ namespace WpfApp2
                     break;
             }
             // рубим дерево
-            _tree.Chop(GameField);
+            _tree.Chop(GameField,_timberman);
             GameTimer.Value += 3;
             Check();
         }

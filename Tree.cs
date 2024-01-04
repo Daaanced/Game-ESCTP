@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Shapes;
+using System.Windows.Media.Animation;
 
 namespace WpfApp2
 {
@@ -31,12 +32,42 @@ namespace WpfApp2
             Draw();
         }
 
-        public void Chop(Canvas field)
+        public void Chop(Canvas field, Timberman timberman)
         {
-            Items[0].Delete(field);
+            // Получаем первый элемент и удаляем его из списка
+            TreeItem choppedItem = Items[0];
             Items.RemoveAt(0);
-            Items.Add(new TreeItem(field));
-            Draw();
+
+            // Создаем новый элемент
+            TreeItem newItem = new TreeItem(field);
+
+            // Добавляем новый элемент в список
+            Items.Add(newItem);
+
+            // Запускаем анимацию для предмета, который уходит в сторону на 300 в течение 0.2 секунд
+
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                To = timberman.IsLeft ? choppedItem.LeftPosition + 300 : choppedItem.LeftPosition - 300,
+                Duration = TimeSpan.FromSeconds(0.2)
+            };
+
+            // Привязываем анимацию к свойству Canvas.Left элемента
+            Storyboard.SetTarget(animation, choppedItem.Body);
+            Storyboard.SetTargetProperty(animation, new PropertyPath(Canvas.LeftProperty));
+
+            // Создаем и запускаем Storyboard
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(animation);
+
+            // Удаляем старый элемент после завершения анимации
+            storyboard.Completed += (sender, e) =>
+            {
+                choppedItem.Delete(field);
+            };
+            storyboard.Begin();
+
+            Draw(); // Перерисовываем дерево после анимации
         }
 
         public void Draw()
@@ -66,6 +97,8 @@ namespace WpfApp2
         private string _imagePath = "./imgs/log.png";
         private string _imagePathR = "./imgs/logWithBranchR.png";
         private string _imagePathL = "./imgs/logWithBranchL.png";
+        public Rectangle Body => _body; // Добавляем свойство для доступа к _body извне
+        public double LeftPosition => Canvas.GetLeft(_body); // Добавляем свойство для получения текущей позиции по горизонтали
         public TreeItem(Canvas field)
         {
             // TODO: первый элемент дерева должен быть без веток
@@ -96,6 +129,7 @@ namespace WpfApp2
             };
             field.Children.Add(_body);
             Canvas.SetLeft(_body, left_position);
+
         }
 
         public void MoveDown(int bottom_position)
