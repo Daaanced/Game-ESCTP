@@ -108,7 +108,7 @@ namespace WpfApp2
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => {
                 if (GameTimer.Value > 0)
                 {
-                    GameTimer.Value += 1;
+                    GameTimer.Value -= 1;
                 }
                 else
                 {
