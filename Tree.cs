@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace WpfApp2
 {
@@ -45,20 +46,29 @@ namespace WpfApp2
                 Items[i].MoveDown(_itemsBottomPositions[i]);
             }
         }
+
+        public void Delete(Canvas field)
+        {
+            for (int i = 0; i < _height; i++)
+            {
+                Items[i].Delete(field);
+            }
+        }
     }
     public class TreeItem
     {
         public int Type;
-        int left_position = 210;
+        int left_position = 275;
         private int _size = 100;
         private int _height = 50;
-        private TextBlock _body;
-        static int count = 0;
+        private int _branch_size = 50;
+        private Rectangle _body;
         private string _imagePath = "./imgs/log.png";
         private string _imagePathR = "./imgs/logWithBranchR.png";
         private string _imagePathL = "./imgs/logWithBranchL.png";
         public TreeItem(Canvas field)
         {
+            // TODO: первый элемент дерева должен быть без веток
             Random random = new Random();
             Type = random.Next(1, 4);
             string imagePath;
@@ -66,7 +76,7 @@ namespace WpfApp2
             {
                 case 2:
                     imagePath = _imagePathL;
-                    left_position = 160;
+                    left_position -= _branch_size;
                     break;
 
                 case 3:
@@ -75,19 +85,17 @@ namespace WpfApp2
 
                 default:
                     imagePath = _imagePath;
-                    _size = 50;
+                    _size -= _branch_size;
                     break;
             }
-            _body = new TextBlock { Width = _size, Height = _height };
-            _body.Text = count.ToString();
+            _body = new Rectangle { Width = _size, Height = _height };
 
-            _body.Background = new ImageBrush
+            _body.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Relative))
             };
             field.Children.Add(_body);
             Canvas.SetLeft(_body, left_position);
-            count++;
         }
 
         public void MoveDown(int bottom_position)

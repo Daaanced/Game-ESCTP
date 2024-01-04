@@ -6,7 +6,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,18 +25,20 @@ namespace WpfApp2
 {
     public partial class MainWindow : Window
     {
-        public Timberman _timberman;
-        public Tree _tree;
+        private Timberman _timberman;
+        private Tree _tree;
+        private System.Timers.Timer _timer;
+
         public MainWindow()
         {
             InitializeComponent();
-            GameField.Focus();
+            
             GameField.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
-            _timberman = new Timberman(GameField);
-            _tree = new Tree(GameField);
+            NewGame();
+
         }
 
         public void NextTurn(object sender, KeyEventArgs e)
@@ -51,20 +55,66 @@ namespace WpfApp2
             }
             // рубим дерево
             _tree.Chop(GameField);
+            GameTimer.Value += 3;
             Check();
         }
         public void Check()
         {
-            if (_tree.Items[0].Type == 2 && _timberman.IsLeft)
+            if (_tree.Items[0].Type == 2 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
             {
-                EndGame window = new EndGame();
-                window.Show();
+                GameOver();
             }
-            if (_tree.Items[0].Type == 3 && !_timberman.IsLeft)
-            {
-                EndGame window = new EndGame();
-                window.Show();
-            }
+        }
+
+
+        public void GameOver()
+        {
+            _timer.Stop();
+            GameField.Focusable = false;
+            GameEndMenu.IsOpen = true;
+            _timberman.Delete(GameField);
+            _tree.Delete(GameField);
+
+        }
+
+        public void NewGame()
+        {
+            GameEndMenu.IsOpen = false;
+            _timberman = new Timberman(GameField);
+            _tree = new Tree(GameField);
+            GameField.Focusable = true;
+            GameField.Focus();
+
+            //TimerCallback tm = new TimerCallback(Count);
+            _timer = new System.Timers.Timer(100);
+            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            _timer.Start();
+            GameTimer.Value = 100;
+
+        }
+
+        public void NewGameButtonHandler(object sender, EventArgs e)
+        {
+            NewGame();
+        }
+
+        public void ExitButtonHandler(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => {
+                if (GameTimer.Value > 0)
+                {
+                    GameTimer.Value -= 1;
+                }
+                else
+                {
+                    GameOver();
+                }
+            }));
         }
 
     }

@@ -17,8 +17,8 @@ namespace WpfApp2
         private int _size = 50;
         private Rectangle _body;
         private int _bottomPosition = 20;
-        private int _leftPosition = 150;
-        private int _rightPosition = 270;
+        private int _leftPosition = 215;
+        private int _rightPosition = 335;
         private string _imagePath = "./imgs/timberman.png";
         public Timberman(Canvas field)
         {
@@ -48,6 +48,11 @@ namespace WpfApp2
             _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
             Canvas.SetLeft(_body, _rightPosition);
             IsLeft = false;
+        }
+
+        public void Delete(Canvas field)
+        {
+            field.Children.Remove(_body);
         }
     }
 }
