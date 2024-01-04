@@ -49,5 +49,10 @@ namespace WpfApp2
             Canvas.SetLeft(_body, _rightPosition);
             IsLeft = false;
         }
+
+        public void Delete(Canvas field)
+        {
+            field.Children.Remove(_body);
+        }
     }
 }

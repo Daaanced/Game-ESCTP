@@ -23,8 +23,8 @@ namespace WpfApp2
 {
     public partial class MainWindow : Window
     {
-        public Timberman _timberman;
-        public Tree _tree;
+        private Timberman _timberman;
+        private Tree _tree;
         public MainWindow()
         {
             InitializeComponent();
@@ -33,8 +33,8 @@ namespace WpfApp2
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
-            _timberman = new Timberman(GameField);
-            _tree = new Tree(GameField);
+            NewGame();
+
         }
 
         public void NextTurn(object sender, KeyEventArgs e)
@@ -57,10 +57,34 @@ namespace WpfApp2
         {
             if (_tree.Items[0].Type == 2 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
             {
-                EndGame window = new EndGame();
-                window.Show();
+                GameOver();
             }
         }
 
+
+        public void GameOver()
+        {
+            GameEndMenu.IsOpen = true;
+            _timberman.Delete(GameField);
+            _tree.Delete(GameField);
+
+        }
+
+        public void NewGame()
+        {
+            GameEndMenu.IsOpen = false;
+            _timberman = new Timberman(GameField);
+            _tree = new Tree(GameField);
+        }
+
+        public void NewGameButtonHandler(object sender, EventArgs e)
+        {
+            NewGame();
+        }
+
+        public void ExitButtonHandler(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

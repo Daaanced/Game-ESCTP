@@ -46,6 +46,14 @@ namespace WpfApp2
                 Items[i].MoveDown(_itemsBottomPositions[i]);
             }
         }
+
+        public void Delete(Canvas field)
+        {
+            for (int i = 0; i < _height; i++)
+            {
+                Items[i].Delete(field);
+            }
+        }
     }
     public class TreeItem
     {
@@ -60,6 +68,7 @@ namespace WpfApp2
         private string _imagePathL = "./imgs/logWithBranchL.png";
         public TreeItem(Canvas field)
         {
+            // TODO: первый элемент дерева должен быть без веток
             Random random = new Random();
             Type = random.Next(1, 4);
             string imagePath;
