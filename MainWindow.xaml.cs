@@ -6,7 +6,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,10 +27,12 @@ namespace WpfApp2
     {
         private Timberman _timberman;
         private Tree _tree;
+        private System.Timers.Timer _timer;
+
         public MainWindow()
         {
             InitializeComponent();
-            GameField.Focus();
+            
             GameField.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
@@ -51,6 +55,7 @@ namespace WpfApp2
             }
             // рубим дерево
             _tree.Chop(GameField);
+            GameTimer.Value += 3;
             Check();
         }
         public void Check()
@@ -64,6 +69,8 @@ namespace WpfApp2
 
         public void GameOver()
         {
+            _timer.Stop();
+            GameField.Focusable = false;
             GameEndMenu.IsOpen = true;
             _timberman.Delete(GameField);
             _tree.Delete(GameField);
@@ -75,6 +82,15 @@ namespace WpfApp2
             GameEndMenu.IsOpen = false;
             _timberman = new Timberman(GameField);
             _tree = new Tree(GameField);
+            GameField.Focusable = true;
+            GameField.Focus();
+
+            //TimerCallback tm = new TimerCallback(Count);
+            _timer = new System.Timers.Timer(100);
+            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            _timer.Start();
+            GameTimer.Value = 100;
+
         }
 
         public void NewGameButtonHandler(object sender, EventArgs e)
@@ -86,5 +102,20 @@ namespace WpfApp2
         {
             this.Close();
         }
+
+        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => {
+                if (GameTimer.Value > 0)
+                {
+                    GameTimer.Value -= 1;
+                }
+                else
+                {
+                    GameOver();
+                }
+            }));
+        }
+
     }
 }
