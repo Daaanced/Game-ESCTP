@@ -20,6 +20,7 @@ namespace WpfApp2
         private int _leftPosition = 215;
         private int _rightPosition = 335;
         private string _imagePath = "./imgs/timberman.png";
+        private string _imagePath1 = "./imgs/timbermanChop.png";
         public Timberman(Canvas field)
         {
             // Создаем дровосека
@@ -37,17 +38,41 @@ namespace WpfApp2
             this.MoveLeft();
         }
 
-        public void MoveLeft()
+        public async void MoveLeft()
         {
+
+            // Устанавливаем трансформацию и позицию для движения влево
             _body.RenderTransform = new ScaleTransform { ScaleX = 1 };
             Canvas.SetLeft(_body, _leftPosition);
             IsLeft = true;
+
+            UpdateImage(_imagePath1);
+            await Task.Delay(100);
+            UpdateImage(_imagePath);
         }
-        public void MoveRight()
+
+        public async void MoveRight()
         {
+
+            
+
+            // Устанавливаем трансформацию и позицию для движения вправо
             _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
             Canvas.SetLeft(_body, _rightPosition);
             IsLeft = false;
+
+            UpdateImage(_imagePath1);
+            await Task.Delay(100);
+            UpdateImage(_imagePath);
+        }
+
+        private void UpdateImage(string imagePath)
+        {
+            // Обновляем изображение
+            _body.Fill = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Relative))
+            };
         }
 
         public void Delete(Canvas field)
