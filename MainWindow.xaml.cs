@@ -28,6 +28,7 @@ namespace WpfApp2
         private Timberman _timberman;
         private Tree _tree;
         private System.Timers.Timer _timer;
+        private int _score;
 
         public MainWindow()
         {
@@ -37,12 +38,14 @@ namespace WpfApp2
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
-            NewGame();
+            GameMainMenu.IsOpen = true;
 
         }
 
         public void NextTurn(object sender, KeyEventArgs e)
         {
+            if (e.Key != Key.D && e.Key != Key.A)
+                return;
             // перемещаем дровосека
             switch (e.Key)
             {
@@ -57,13 +60,12 @@ namespace WpfApp2
             _tree.Chop(GameField,_timberman);
             GameTimer.Value += 3;
             Check();
+            UpdateScore(++_score);
         }
         public void Check()
         {
             if (_tree.Items[0].Type == 2 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
-            {
                 GameOver();
-            }
         }
 
 
@@ -71,6 +73,7 @@ namespace WpfApp2
         {
             _timer.Stop();
             GameField.Focusable = false;
+            EndGameScoreText.Text = _score.ToString();
             GameEndMenu.IsOpen = true;
             _timberman.Delete(GameField);
             _tree.Delete(GameField);
@@ -80,6 +83,7 @@ namespace WpfApp2
         public void NewGame()
         {
             GameEndMenu.IsOpen = false;
+            GameMainMenu.IsOpen = false;
             _timberman = new Timberman(GameField);
             _tree = new Tree(GameField);
             GameField.Focusable = true;
@@ -90,7 +94,14 @@ namespace WpfApp2
             _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
             _timer.Start();
             GameTimer.Value = 100;
+            UpdateScore();
 
+        }
+
+        private void UpdateScore(int score=0)
+        {
+            _score = score;
+            ScoreText.Text = "Счет: " + _score.ToString();
         }
 
         public void NewGameButtonHandler(object sender, EventArgs e)

@@ -44,12 +44,12 @@ namespace WpfApp2
             // Добавляем новый элемент в список
             Items.Add(newItem);
 
-            // Запускаем анимацию для предмета, который уходит в сторону на 300 в течение 0.2 секунд
+            // Запускаем анимацию для предмета, который уходит в сторону на 300 в течение 0.4 секунд
 
             DoubleAnimation animation = new DoubleAnimation
             {
                 To = timberman.IsLeft ? choppedItem.LeftPosition + 300 : choppedItem.LeftPosition - 300,
-                Duration = TimeSpan.FromSeconds(0.2)
+                Duration = TimeSpan.FromSeconds(0.4)
             };
 
             // Привязываем анимацию к свойству Canvas.Left элемента
@@ -134,6 +134,25 @@ namespace WpfApp2
 
         public void MoveDown(int bottom_position)
         {
+            // Запускаем анимацию для предмета в течение 0.1 секунд
+            DoubleAnimation animation = new DoubleAnimation
+            {
+                To =bottom_position,
+                Duration = TimeSpan.FromSeconds(0.1)
+            };
+
+            // Привязываем анимацию к свойству Canvas.Bottom элемента
+            Storyboard.SetTarget(animation, Body);
+            Storyboard.SetTargetProperty(animation, new PropertyPath(Canvas.BottomProperty));
+
+            // Создаем и запускаем Storyboard
+            Storyboard storyboard = new Storyboard();
+            storyboard.Children.Add(animation);
+
+            // Вылетает ошибка если не задать что-нибудь в Completed
+            storyboard.Completed += (sender, e) =>
+            {};
+            storyboard.Begin();
             Canvas.SetBottom(_body, bottom_position);
         }
 
