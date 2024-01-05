@@ -61,9 +61,7 @@ namespace WpfApp2
         public void Check()
         {
             if (_tree.Items[0].Type == 2 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
-            {
                 GameOver();
-            }
         }
 
 
