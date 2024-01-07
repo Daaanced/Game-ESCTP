@@ -14,18 +14,19 @@ namespace WpfApp2
     public class Timberman
     {
         public bool IsLeft = true;
-        private int _size = 50;
+        private int _size = 150;
         private Rectangle _body;
         private int _bottomPosition = 20;
-        private int _leftPosition = 215;
-        private int _rightPosition = 335;
+        private int _leftPosition = 175;
+        private int _rightPosition = 305;
+        private int _rightPosition1 = 355;
         private string _imagePath = "./imgs/timberman.png";
         private string _imagePath1 = "./imgs/timbermanChop.png";
         public Timberman(Canvas field)
         {
             // Создаем дровосека
             string imagePath = _imagePath;
-            this._body = new Rectangle { Name = "_timberman", Width = _size, Height = _size };
+            this._body = new Rectangle { Name = "_timberman", Width = _size, Height = _size - 50};
             _body.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Relative))
@@ -47,22 +48,24 @@ namespace WpfApp2
             IsLeft = true;
 
             UpdateImage(_imagePath1);
+            //_body.Width = _body.Width + 50;
             await Task.Delay(100);
+            _body.Width = _size;
             UpdateImage(_imagePath);
         }
 
         public async void MoveRight()
         {
-
-            
-
             // Устанавливаем трансформацию и позицию для движения вправо
             _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
             Canvas.SetLeft(_body, _rightPosition);
             IsLeft = false;
 
             UpdateImage(_imagePath1);
+            //_body.Width = _body.Width + 50;
             await Task.Delay(100);
+            _body.Width = _size;
+            Canvas.SetLeft(_body, _rightPosition);
             UpdateImage(_imagePath);
         }
 

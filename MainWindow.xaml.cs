@@ -29,6 +29,8 @@ namespace WpfApp2
         private Tree _tree;
         private System.Timers.Timer _timer;
         private int _score;
+        private int _record;
+        double multiplyer = 0.5;
 
         public MainWindow()
         {
@@ -56,6 +58,9 @@ namespace WpfApp2
                     _timberman.MoveRight();
                     break;
             }
+            _timer.Start();
+            if (_score % 20 == 0) multiplyer += 0.2;
+            Check();
             // рубим дерево
             _tree.Chop(GameField,_timberman);
             GameTimer.Value += 3;
@@ -64,35 +69,36 @@ namespace WpfApp2
         }
         public void Check()
         {
-            if (_tree.Items[0].Type == 2 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
+            if (_tree.Items[0].Type == 1 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
                 GameOver();
         }
 
 
         public void GameOver()
         {
+            if (_score > _record) _record = _score;
             _timer.Stop();
             GameField.Focusable = false;
             EndGameScoreText.Text = _score.ToString();
+            EndGameRecordText.Text = _record.ToString();
             GameEndMenu.IsOpen = true;
             _timberman.Delete(GameField);
             _tree.Delete(GameField);
-
+            multiplyer = 0.5;
         }
 
         public void NewGame()
         {
             GameEndMenu.IsOpen = false;
             GameMainMenu.IsOpen = false;
-            _timberman = new Timberman(GameField);
             _tree = new Tree(GameField);
+            _timberman = new Timberman(GameField);
             GameField.Focusable = true;
             GameField.Focus();
 
             //TimerCallback tm = new TimerCallback(Count);
             _timer = new System.Timers.Timer(100);
-            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
-            _timer.Start();
+            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);           
             GameTimer.Value = 100;
             UpdateScore();
 
@@ -115,11 +121,11 @@ namespace WpfApp2
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
-        {
+        {           
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => {
                 if (GameTimer.Value > 0)
                 {
-                    GameTimer.Value -= 1;
+                    GameTimer.Value -= multiplyer;
                 }
                 else
                 {
@@ -127,6 +133,5 @@ namespace WpfApp2
                 }
             }));
         }
-
     }
 }

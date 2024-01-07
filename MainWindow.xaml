@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="600" WindowStartupLocation="CenterScreen">
+        Title="Timberman" Height="450" Width="600" WindowStartupLocation="CenterScreen">
     <Canvas x:Name="GameField" KeyDown="NextTurn" Focusable="True">
         <ProgressBar x:Name="GameTimer" Minimum="0" Maximum="50" Height="10" Width="100" Canvas.Top="20" Canvas.Left="250" Panel.ZIndex="5" Foreground="Red"></ProgressBar>
         <TextBlock x:Name="ScoreText" Foreground="Wheat" Canvas.Right="20" Canvas.Top="20" FontSize="20"> </TextBlock>
@@ -23,6 +23,7 @@
                 <TextBlock Name="EndMenuText" Background="Coral" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black">
                     Вы проиграли <LineBreak />
                     Ваш счет: <TextBlock x:Name="EndGameScoreText"></TextBlock> <LineBreak />
+                    Рекорд: <TextBlock x:Name="EndGameRecordText"></TextBlock> <LineBreak />
                     <Button x:Name="NewGameButton2" Click="NewGameButtonHandler"> Новая Игра</Button>
                     <Button x:Name="ExitButton2" Click="ExitButtonHandler"> Выход</Button>
                 </TextBlock>
