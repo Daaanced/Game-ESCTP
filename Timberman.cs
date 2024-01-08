@@ -27,6 +27,7 @@ namespace WpfApp2
             // Создаем дровосека
             string imagePath = _imagePath;
             this._body = new Rectangle { Name = "_timberman", Width = _size, Height = _size - 50};
+            Canvas.SetZIndex(_body, 1);
             _body.Fill = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri(imagePath, UriKind.Relative))
