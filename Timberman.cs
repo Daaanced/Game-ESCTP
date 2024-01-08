@@ -17,9 +17,10 @@ namespace WpfApp2
         private int _size = 150;
         private Rectangle _body;
         private int _bottomPosition = 20;
-        private int _leftPosition = 175;
-        private int _rightPosition = 305;
-        private int _rightPosition1 = 355;
+        private int _leftPosition = 125;
+        private int _leftPosition1 = 175;
+        private int _rightPosition = 345;
+        private int _rightPosition1 = 295;
         private string _imagePath = "./imgs/timberman.png";
         private string _imagePath1 = "./imgs/timbermanChop.png";
         public Timberman(Canvas field)
@@ -45,11 +46,12 @@ namespace WpfApp2
 
             // Устанавливаем трансформацию и позицию для движения влево
             _body.RenderTransform = new ScaleTransform { ScaleX = 1 };
-            Canvas.SetLeft(_body, _leftPosition);
+            Canvas.SetLeft(_body, _leftPosition1);
             IsLeft = true;
 
             UpdateImage(_imagePath1);
             await Task.Delay(100);
+            Canvas.SetLeft(_body, _leftPosition);
             UpdateImage(_imagePath);
         }
 
@@ -57,7 +59,7 @@ namespace WpfApp2
         {
             // Устанавливаем трансформацию и позицию для движения вправо
             _body.RenderTransform = new ScaleTransform { ScaleX = -1 };
-            Canvas.SetLeft(_body, _rightPosition);
+            Canvas.SetLeft(_body, _rightPosition1);
             IsLeft = false;
 
             UpdateImage(_imagePath1);

@@ -17,6 +17,9 @@
     <None Update="imgs\background2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="imgs\chest.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="imgs\log.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

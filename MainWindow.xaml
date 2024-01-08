@@ -11,30 +11,36 @@
         <TextBlock x:Name="ScoreText" Foreground="Wheat" Canvas.Right="20" Canvas.Top="20" FontSize="20"> </TextBlock>
         <Popup x:Name="GameMainMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="75" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
             <Border BorderThickness="1">
-                <TextBlock Name="MainMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center">
-                    Timberman<LineBreak />
-                    <Button x:Name="NewGameButton1" Click="NewGameButtonHandler"> Новая Игра</Button>
-                    <Button x:Name="ExitButton1" Click="ExitButtonHandler"> Выход</Button>
-                </TextBlock>
+                <StackPanel Name="MainMenuPanel" Background="Wheat">
+                    <TextBlock Name="MainMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center">
+                Timberman<LineBreak />
+                    </TextBlock>
+                    <Button x:Name="NewGameButton1" Click="NewGameButtonHandler" Background="Brown" Foreground="Wheat" HorizontalAlignment="Center" Margin="0,-20,0,10" Width="150" Height="40" MouseEnter="NewGameButton1_MouseEnter" MouseLeave="NewGameButton1_MouseLeave">Новая игра</Button>
+                    <Button x:Name="ExitButton1" Click="ExitButtonHandler" Background="Brown" Foreground="Wheat" HorizontalAlignment="Center" Margin="0,10,0,30" Width="150" Height="40">Выход</Button>
+                </StackPanel>
             </Border>
         </Popup>
         <Popup x:Name="GamePauseMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="75" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
             <Border BorderThickness="1">
-                <TextBlock Name="PauseMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center">
-                    Пауза<LineBreak />
-                    <Button x:Name="CoutinueButton" Click="Continue">Продолжить</Button>
-                </TextBlock>
+                <StackPanel Name="PauseMenuPanel">
+                    <TextBlock Name="PauseMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center">
+                Пауза<LineBreak />
+                    </TextBlock>
+                    <Button x:Name="ContinueButton" Background ="Brown" Foreground="Wheat" Click="Continue" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Top" Width="150" Height="40">Продолжить</Button>
+                </StackPanel>
             </Border>
         </Popup>
-        <Popup x:Name="GameEndMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="75" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
+        <Popup x:Name="GameEndMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="35" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
             <Border BorderThickness="1">
-                <TextBlock Name="EndMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center" >
-                    Вы проиграли <LineBreak />
-                    Ваш счет: <TextBlock x:Name="EndGameScoreText"></TextBlock> <LineBreak />
-                    Рекорд: <TextBlock x:Name="EndGameRecordText"></TextBlock> <LineBreak />
-                    <Button x:Name="NewGameButton2" Click="NewGameButtonHandler"> Новая Игра</Button>
-                    <Button x:Name="ExitButton2" Click="ExitButtonHandler"> Выход</Button>
-                </TextBlock>
+                <StackPanel Name="EndMenuPanel" Background="Wheat">
+                    <TextBlock Name="EndMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center">
+                Вы проиграли <LineBreak />
+                Ваш счет: <TextBlock x:Name="EndGameScoreText"></TextBlock> <LineBreak />
+                Рекорд: <TextBlock x:Name="EndGameRecordText"></TextBlock> <LineBreak />
+            </TextBlock>
+                    <Button x:Name="NewGameButton2" Background ="Brown" Foreground="Wheat" Click="NewGameButtonHandler" HorizontalAlignment="Center" Margin="0,-50,0,10" VerticalAlignment="Top" Width="150" Height="30">Новая Игра</Button>
+                    <Button x:Name="ExitButton2" Background ="Brown" Foreground="Wheat" Click="ExitButtonHandler" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment=" Top" Width="150" Height="30">Выход</Button>
+                </StackPanel>
             </Border>
         </Popup>
     </Canvas>

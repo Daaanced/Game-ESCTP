@@ -45,16 +45,17 @@ namespace WpfApp2
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
 
-            MainMenuText.Background = new ImageBrush
+            MainMenuPanel.Background = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
+            };           
+
+            EndMenuPanel.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
 
-            EndMenuText.Background = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
-            };
-            PauseMenuText.Background = new ImageBrush
+            PauseMenuPanel.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
@@ -74,8 +75,9 @@ namespace WpfApp2
                     _timberman.MoveRight();
                     break;
                 case Key.P:
-                    Pause();            
-                    return;
+                    Pause();
+                    break;
+                    
                 default: return;
             }
             _timer.Start();
@@ -84,8 +86,8 @@ namespace WpfApp2
             // рубим дерево
             _tree.Chop(GameField,_timberman);
             GameTimer.Value += 3;
-            Check();
             UpdateScore(++_score);
+            Check();          
         }
         public void Check()
         {
@@ -153,6 +155,17 @@ namespace WpfApp2
         public void ExitButtonHandler(object sender, EventArgs e)
         {
             this.Close();
+        }
+        private void NewGameButton1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("MouseEnter event fired");
+            ((Button)sender).Background = Brushes.Brown;
+        }
+
+        private void NewGameButton1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("MouseLeave event fired");
+            ((Button)sender).Background = Brushes.Red;
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
