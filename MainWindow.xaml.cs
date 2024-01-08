@@ -76,7 +76,7 @@ namespace WpfApp2
                     break;
                 case Key.P:
                     Pause();
-                    break;
+                    return;
                     
                 default: return;
             }
