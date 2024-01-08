@@ -12,6 +12,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Diagnostics;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -20,6 +21,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static WpfApp2.TreeItem;
 
 namespace WpfApp2
 {
@@ -39,6 +41,16 @@ namespace WpfApp2
             GameField.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
+            };
+
+            MainMenuText.Background = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
+            };
+
+            EndMenuText.Background = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
             GameMainMenu.IsOpen = true;
 
@@ -69,7 +81,7 @@ namespace WpfApp2
         }
         public void Check()
         {
-            if (_tree.Items[0].Type == 1 && _timberman.IsLeft || _tree.Items[0].Type == 3 && !_timberman.IsLeft)
+            if (_tree.Items[0].Type == (int)TreeType.Left && _timberman.IsLeft || _tree.Items[0].Type == (int)TreeType.Right && !_timberman.IsLeft)
                 GameOver();
         }
 

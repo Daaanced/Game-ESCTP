@@ -16,7 +16,7 @@ namespace WpfApp2
 {
     public class Tree
     {
-        private int newType, previousType;
+        public int _previousType;
         private int _height = 10;
         private int _leftPosition = 210;
         private int _bottomPosition = 20;
@@ -30,21 +30,27 @@ namespace WpfApp2
             _itemsBottomPositions = new List<int>();
             for (int i = 0; i < _height; i++)
             {
-                Generate();            
-                Items.Add(new TreeItem(field, newType));
+                Generate(field);              
                 _itemsBottomPositions.Add(_bottomPosition + i * _itemSize);
             }
             Draw();
-        }
-        public void Generate()
+        } 
+
+        private void Generate(Canvas field)
         {
-            if (previousType == 0) newType = 2;
-            else do
+            TreeItem.TreeType newType;
+            if (_previousType == 0)
+                newType = TreeItem.TreeType.Middle;
+            else
+            {
+                do
                 {
                     Random random = new Random();
-                    newType = random.Next(1, 4);
-                } while (Math.Abs(previousType - newType) > 1);
-            previousType = newType;
+                    newType = (TreeItem.TreeType) random.Next(1, 4);
+                } while (Math.Abs((int)(_previousType - newType)) > 1);
+            }
+            _previousType = (int)newType;
+            Items.Add(new TreeItem(field, newType));
         }
 
         public void Chop(Canvas field, Timberman timberman)
@@ -53,12 +59,8 @@ namespace WpfApp2
             TreeItem choppedItem = Items[0];
             Items.RemoveAt(0);
 
-            // Создаем новый элемент
-            Generate();
-            TreeItem newItem = new TreeItem(field, newType);
-
-            // Добавляем новый элемент в список
-            Items.Add(newItem);
+            // Создаем и добавляем новый элемент
+             Generate(field);
 
             // Запускаем анимацию вращения для предмета в течение 0.4 секунд
             DoubleAnimation rotationAnimation = new DoubleAnimation
@@ -115,6 +117,13 @@ namespace WpfApp2
     }
     public class TreeItem
     {
+        public enum TreeType 
+        {
+            Left = 1,
+            Middle = 2,
+            Right = 3,
+        }
+
         public int Type;
         int left_position = 275;
         private int _size = 150;
@@ -126,18 +135,19 @@ namespace WpfApp2
         private string _imagePathL = "./imgs/logWithBranchL.png";
         public Rectangle Body => _body; // Добавляем свойство для доступа к _body извне
         public double LeftPosition => Canvas.GetLeft(_body); // Добавляем свойство для получения текущей позиции по горизонтали
-        public TreeItem(Canvas field, int newType)
+        public TreeItem(Canvas field, TreeType newType)
         {
-            Type = newType;
+            
+            Type = (int)newType;
             string imagePath;
-            switch (Type)
+            switch (newType)
             {
-                case 1:
+                case TreeType.Left:
                     imagePath = _imagePathL;
                     left_position -= _branch_size;
                     break;
 
-                case 3:
+                case TreeType.Right:
                     imagePath = _imagePathR;
                     break;
 
@@ -156,7 +166,6 @@ namespace WpfApp2
             Canvas.SetLeft(_body, left_position);          
             
         }
- 
 
         public void MoveDown(int bottom_position)
         {

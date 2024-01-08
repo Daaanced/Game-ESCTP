@@ -48,9 +48,7 @@ namespace WpfApp2
             IsLeft = true;
 
             UpdateImage(_imagePath1);
-            //_body.Width = _body.Width + 50;
             await Task.Delay(100);
-            _body.Width = _size;
             UpdateImage(_imagePath);
         }
 
@@ -62,9 +60,7 @@ namespace WpfApp2
             IsLeft = false;
 
             UpdateImage(_imagePath1);
-            //_body.Width = _body.Width + 50;
             await Task.Delay(100);
-            _body.Width = _size;
             Canvas.SetLeft(_body, _rightPosition);
             UpdateImage(_imagePath);
         }

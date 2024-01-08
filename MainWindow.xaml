@@ -11,7 +11,7 @@
         <TextBlock x:Name="ScoreText" Foreground="Wheat" Canvas.Right="20" Canvas.Top="20" FontSize="20"> </TextBlock>
         <Popup x:Name="GameMainMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="75" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
             <Border BorderThickness="1">
-                <TextBlock Name="MainMenuText" Background="Coral" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black">
+                <TextBlock Name="MainMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center">
                     Timberman<LineBreak />
                     <Button x:Name="NewGameButton1" Click="NewGameButtonHandler"> Новая Игра</Button>
                     <Button x:Name="ExitButton1" Click="ExitButtonHandler"> Выход</Button>
@@ -20,7 +20,7 @@
         </Popup>
         <Popup x:Name="GameEndMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="75" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
             <Border BorderThickness="1">
-                <TextBlock Name="EndMenuText" Background="Coral" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black">
+                <TextBlock Name="EndMenuText" Foreground="Wheat" Padding="30" FontSize="30" TextWrapping="Wrap" FontWeight="Black" TextAlignment="Center" >
                     Вы проиграли <LineBreak />
                     Ваш счет: <TextBlock x:Name="EndGameScoreText"></TextBlock> <LineBreak />
                     Рекорд: <TextBlock x:Name="EndGameRecordText"></TextBlock> <LineBreak />
