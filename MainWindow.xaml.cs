@@ -32,7 +32,9 @@ namespace WpfApp2
         private System.Timers.Timer _timer;
         private int _score;
         private int _record;
-        double multiplyer = 0.5;
+        private double _multiplyer = 0.5;
+        private bool _isPause = false;
+
 
         public MainWindow()
         {
@@ -52,14 +54,16 @@ namespace WpfApp2
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
+            PauseMenuText.Background = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
+            };
             GameMainMenu.IsOpen = true;
 
         }
 
         public void NextTurn(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.D && e.Key != Key.A)
-                return;
             // перемещаем дровосека
             switch (e.Key)
             {
@@ -69,9 +73,13 @@ namespace WpfApp2
                 case Key.D:
                     _timberman.MoveRight();
                     break;
+                case Key.P:
+                    Pause();            
+                    return;
+                default: return;
             }
             _timer.Start();
-            if (_score % 20 == 0) multiplyer += 0.2;
+            if (_score % 20 == 0) _multiplyer += 0.2;
             Check();
             // рубим дерево
             _tree.Chop(GameField,_timberman);
@@ -96,7 +104,7 @@ namespace WpfApp2
             GameEndMenu.IsOpen = true;
             _timberman.Delete(GameField);
             _tree.Delete(GameField);
-            multiplyer = 0.5;
+            _multiplyer = 0.5;
         }
 
         public void NewGame()
@@ -114,6 +122,21 @@ namespace WpfApp2
             GameTimer.Value = 100;
             UpdateScore();
 
+        }
+
+        public void Pause()
+        {
+            _timer.Stop();
+            GamePauseMenu.IsOpen = true;
+            GameField.Focusable = false;
+        }
+
+        public void Continue(object sender, EventArgs e)
+        {
+            _timer.Start();
+            GameField.Focusable = true;
+            GameField.Focus();
+            GamePauseMenu.IsOpen = false;
         }
 
         private void UpdateScore(int score=0)
@@ -137,7 +160,7 @@ namespace WpfApp2
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => {
                 if (GameTimer.Value > 0)
                 {
-                    GameTimer.Value -= multiplyer;
+                    GameTimer.Value -= _multiplyer;
                 }
                 else
                 {
