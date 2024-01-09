@@ -67,7 +67,10 @@ namespace WpfApp2
 
             // Загружаем рекорд из файла / Создаем файл с рекордом если такового нет
             if (File.Exists(_recordPath))
-                File.ReadAllBytes(_recordPath);
+            {
+                var  bytes = File.ReadAllBytes(_recordPath);
+                _record = Int32.Parse(Encoding.UTF8.GetString(bytes));
+            }
             else
             {
                 _record = 0;
