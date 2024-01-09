@@ -131,9 +131,10 @@ namespace WpfApp2
             _timer.Stop();
             GamePauseMenu.IsOpen = true;
             GameField.Focusable = false;
+            ContinueButton.Focus();
         }
 
-        public void Continue(object sender, EventArgs e)
+        public void Continue()
         {
             _timer.Start();
             GameField.Focusable = true;
@@ -159,13 +160,13 @@ namespace WpfApp2
         private void NewGameButton1_MouseEnter(object sender, MouseEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("MouseEnter event fired");
-            ((Button)sender).Background = Brushes.Brown;
+            ((Button)sender).Background = Brushes.Blue;
         }
 
         private void NewGameButton1_MouseLeave(object sender, MouseEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("MouseLeave event fired");
-            ((Button)sender).Background = Brushes.Red;
+            ((Button)sender).Background = Brushes.Brown;
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
@@ -180,6 +181,18 @@ namespace WpfApp2
                     GameOver();
                 }
             }));
+        }
+
+        private void ContinueButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.P) 
+                Continue();
+            e.Handled = true;
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            Continue();
         }
     }
 }
