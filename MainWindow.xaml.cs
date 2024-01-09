@@ -45,16 +45,17 @@ namespace WpfApp2
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
             };
 
-            MainMenuText.Background = new ImageBrush
+            MainMenuPanel.Background = new ImageBrush
+            {
+                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
+            };           
+
+            EndMenuPanel.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
 
-            EndMenuText.Background = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
-            };
-            PauseMenuText.Background = new ImageBrush
+            PauseMenuPanel.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
@@ -74,8 +75,9 @@ namespace WpfApp2
                     _timberman.MoveRight();
                     break;
                 case Key.P:
-                    Pause();            
+                    Pause();
                     return;
+                    
                 default: return;
             }
             _timer.Start();
@@ -84,8 +86,8 @@ namespace WpfApp2
             // рубим дерево
             _tree.Chop(GameField,_timberman);
             GameTimer.Value += 3;
-            Check();
             UpdateScore(++_score);
+            Check();          
         }
         public void Check()
         {
@@ -98,6 +100,7 @@ namespace WpfApp2
         {
             if (_score > _record) _record = _score;
             _timer.Stop();
+            GameTimer.Visibility = Visibility.Hidden;
             GameField.Focusable = false;
             EndGameScoreText.Text = _score.ToString();
             EndGameRecordText.Text = _record.ToString();
@@ -116,9 +119,10 @@ namespace WpfApp2
             GameField.Focusable = true;
             GameField.Focus();
 
-            //TimerCallback tm = new TimerCallback(Count);
+            
             _timer = new System.Timers.Timer(100);
-            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);           
+            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            GameTimer.Visibility = Visibility.Visible;
             GameTimer.Value = 100;
             UpdateScore();
 
@@ -129,9 +133,10 @@ namespace WpfApp2
             _timer.Stop();
             GamePauseMenu.IsOpen = true;
             GameField.Focusable = false;
+            ContinueButton.Focus();
         }
 
-        public void Continue(object sender, EventArgs e)
+        public void Continue()
         {
             _timer.Start();
             GameField.Focusable = true;
@@ -154,6 +159,17 @@ namespace WpfApp2
         {
             this.Close();
         }
+        private void NewGameButton1_MouseEnter(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("MouseEnter event fired");
+            ((Button)sender).Background = Brushes.Blue;
+        }
+
+        private void NewGameButton1_MouseLeave(object sender, MouseEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("MouseLeave event fired");
+            ((Button)sender).Background = Brushes.Brown;
+        }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
         {           
@@ -167,6 +183,18 @@ namespace WpfApp2
                     GameOver();
                 }
             }));
+        }
+
+        private void ContinueButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.P) 
+                Continue();
+            e.Handled = true;
+        }
+
+        private void ContinueButton_Click(object sender, RoutedEventArgs e)
+        {
+            Continue();
         }
     }
 }
