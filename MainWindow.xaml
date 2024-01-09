@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Timberman" Height="450" Width="600" WindowStartupLocation="CenterScreen">
     <Canvas x:Name="GameField" KeyDown="NextTurn" Focusable="True">
-        <ProgressBar x:Name="GameTimer" Minimum="0" Maximum="50" Height="10" Width="100" Canvas.Top="20" Canvas.Left="250" Panel.ZIndex="5" Foreground="Red"></ProgressBar>
+        <ProgressBar x:Name="GameTimer" Minimum="0" Maximum="50" Height="10" Width="100" Canvas.Top="20" Canvas.Left="250" Panel.ZIndex="5" Foreground="Red" Visibility="Hidden"></ProgressBar>
         <TextBlock x:Name="ScoreText" Foreground="Wheat" Canvas.Right="20" Canvas.Top="20" FontSize="20"> </TextBlock>
         <Popup x:Name="GameMainMenu" Width="400" Height="300" IsOpen="False" Canvas.Top="75" Canvas.Left="100" Placement="Center" PlacementTarget="{Binding ElementName=GameField}">
             <Border BorderThickness="1">

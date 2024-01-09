@@ -100,6 +100,7 @@ namespace WpfApp2
         {
             if (_score > _record) _record = _score;
             _timer.Stop();
+            GameTimer.Visibility = Visibility.Hidden;
             GameField.Focusable = false;
             EndGameScoreText.Text = _score.ToString();
             EndGameRecordText.Text = _record.ToString();
@@ -118,9 +119,10 @@ namespace WpfApp2
             GameField.Focusable = true;
             GameField.Focus();
 
-            //TimerCallback tm = new TimerCallback(Count);
+            
             _timer = new System.Timers.Timer(100);
-            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);           
+            _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
+            GameTimer.Visibility = Visibility.Visible;
             GameTimer.Value = 100;
             UpdateScore();
 
