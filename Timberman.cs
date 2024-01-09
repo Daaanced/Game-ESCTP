@@ -14,20 +14,20 @@ namespace WpfApp2
     public class Timberman
     {
         public bool IsLeft = true;
-        private int _size = 150;
+        private int _size = 100;
         private Rectangle _body;
         private int _bottomPosition = 20;
-        private int _leftPosition = 125;
-        private int _leftPosition1 = 175;
+        private int _leftPosition = 175;
+        private int _leftPosition1 = 215;
         private int _rightPosition = 345;
-        private int _rightPosition1 = 295;
+        private int _rightPosition1 = 310;
         private string _imagePath = "./imgs/timberman.png";
         private string _imagePath1 = "./imgs/timbermanChop.png";
         public Timberman(Canvas field)
         {
             // Создаем дровосека
             string imagePath = _imagePath;
-            this._body = new Rectangle { Name = "_timberman", Width = _size, Height = _size - 50};
+            this._body = new Rectangle { Name = "_timberman", Width = _size, Height = _size};
             Canvas.SetZIndex(_body, 1);
             _body.Fill = new ImageBrush
             {
