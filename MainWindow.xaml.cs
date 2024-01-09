@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Formats.Tar;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
@@ -32,6 +35,7 @@ namespace WpfApp2
         private System.Timers.Timer _timer;
         private int _score;
         private int _record;
+        private const string _recordPath = "./record.txt";
         private double _multiplyer = 0.5;
         private bool _isPause = false;
 
@@ -39,7 +43,7 @@ namespace WpfApp2
         public MainWindow()
         {
             InitializeComponent();
-            
+
             GameField.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/background2.png", UriKind.Relative))
@@ -48,7 +52,7 @@ namespace WpfApp2
             MainMenuPanel.Background = new ImageBrush
             {
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
-            };           
+            };
 
             EndMenuPanel.Background = new ImageBrush
             {
@@ -60,6 +64,20 @@ namespace WpfApp2
                 ImageSource = new BitmapImage(new Uri("./imgs/wood.png", UriKind.Relative))
             };
             GameMainMenu.IsOpen = true;
+
+            // Загружаем рекорд из файла / Создаем файл с рекордом если такового нет
+            if (File.Exists(_recordPath))
+                File.ReadAllBytes(_recordPath);
+            else
+            {
+                _record = 0;
+                using (Stream stream = new FileStream(_recordPath, FileMode.OpenOrCreate))
+                {
+                    var bytes = Encoding.UTF8.GetBytes(_record.ToString());
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+            }
+
 
         }
 
@@ -77,17 +95,17 @@ namespace WpfApp2
                 case Key.P:
                     Pause();
                     return;
-                    
+
                 default: return;
             }
             _timer.Start();
             if (_score % 20 == 0) _multiplyer += 0.2;
             Check();
             // рубим дерево
-            _tree.Chop(GameField,_timberman);
+            _tree.Chop(GameField, _timberman);
             GameTimer.Value += 3;
             UpdateScore(++_score);
-            Check();          
+            Check();
         }
         public void Check()
         {
@@ -98,7 +116,16 @@ namespace WpfApp2
 
         public void GameOver()
         {
-            if (_score > _record) _record = _score;
+            if (_score > _record)
+            {
+                _record = _score;
+                using (Stream stream = new FileStream("./record.txt", FileMode.Open))
+                {
+                    var bytes = Encoding.UTF8.GetBytes(_record.ToString());
+                    stream.Write(bytes, 0, bytes.Length);
+                }
+            }
+
             _timer.Stop();
             GameTimer.Visibility = Visibility.Hidden;
             GameField.Focusable = false;
@@ -119,7 +146,7 @@ namespace WpfApp2
             GameField.Focusable = true;
             GameField.Focus();
 
-            
+
             _timer = new System.Timers.Timer(100);
             _timer.Elapsed += new ElapsedEventHandler(timer_Elapsed);
             GameTimer.Visibility = Visibility.Visible;
@@ -144,7 +171,7 @@ namespace WpfApp2
             GamePauseMenu.IsOpen = false;
         }
 
-        private void UpdateScore(int score=0)
+        private void UpdateScore(int score = 0)
         {
             _score = score;
             ScoreText.Text = "Счет: " + _score.ToString();
@@ -172,7 +199,7 @@ namespace WpfApp2
         }
 
         void timer_Elapsed(object sender, ElapsedEventArgs e)
-        {           
+        {
             this.Dispatcher.Invoke(System.Windows.Threading.DispatcherPriority.Normal, (Action)(() => {
                 if (GameTimer.Value > 0)
                 {
@@ -187,7 +214,7 @@ namespace WpfApp2
 
         private void ContinueButton_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.P) 
+            if (e.Key == Key.P)
                 Continue();
             e.Handled = true;
         }
