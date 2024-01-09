@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="Timberman" Height="450" Width="600" WindowStartupLocation="CenterScreen">
+        Title="Timberman" Height="450" Width="600" WindowStartupLocation="CenterScreen"  WindowStyle="None">
     <Window.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Brown"/>
@@ -49,6 +49,8 @@
                 Пауза<LineBreak />
                     </TextBlock>
                     <Button x:Name="ContinueButton" Background="Brown" Foreground="Wheat" Click="ContinueButton_Click" KeyDown="ContinueButton_KeyDown" HorizontalAlignment="Center" Margin="0,0,0,10" VerticalAlignment="Top" Width="150" Height="40" Content="Продолжить">
+                    </Button>
+                    <Button x:Name="ExitButton3" Background="Brown" Foreground="Wheat" Click="ExitButtonHandler" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="150" Height="30" Content="Выход">
                     </Button>
                 </StackPanel>
             </Border>
