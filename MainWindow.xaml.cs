@@ -35,7 +35,7 @@ namespace WpfApp2
         private System.Timers.Timer _timer;
         private int _score;
         private int _record;
-        private const string _recordPath = "./record.txt";
+        private const string _recordPath = "./record.bin";
         private double _multiplyer = 0.5;
         private bool _isPause = false;
 
@@ -67,15 +67,16 @@ namespace WpfApp2
 
             // Загружаем рекорд из файла / Создаем файл с рекордом если такового нет
             if (File.Exists(_recordPath))
-                File.ReadAllBytes(_recordPath);
+            {
+                var  base64text = File.ReadAllText(_recordPath);
+                var base64EncodedBytes = System.Convert.FromBase64String(base64text);
+                _record = Int32.Parse(System.Text.Encoding.UTF8.GetString(base64EncodedBytes));
+            }
             else
             {
                 _record = 0;
-                using (Stream stream = new FileStream(_recordPath, FileMode.OpenOrCreate))
-                {
-                    var bytes = Encoding.UTF8.GetBytes(_record.ToString());
-                    stream.Write(bytes, 0, bytes.Length);
-                }
+                var bytes = Encoding.UTF8.GetBytes(_record.ToString());
+                File.WriteAllText(_recordPath, System.Convert.ToBase64String(bytes));
             }
 
 
@@ -119,11 +120,8 @@ namespace WpfApp2
             if (_score > _record)
             {
                 _record = _score;
-                using (Stream stream = new FileStream("./record.txt", FileMode.Open))
-                {
-                    var bytes = Encoding.UTF8.GetBytes(_record.ToString());
-                    stream.Write(bytes, 0, bytes.Length);
-                }
+                var bytes = Encoding.UTF8.GetBytes(_record.ToString());
+                File.WriteAllText(_recordPath, System.Convert.ToBase64String(bytes));
             }
 
             _timer.Stop();
